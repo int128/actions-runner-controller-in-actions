@@ -6,4 +6,4 @@ export KUBECONFIG=kubeconfig.yaml
 kind create cluster --name arc-cluster
 kubectl version
 
-helmfile apply
+helmfile sync
