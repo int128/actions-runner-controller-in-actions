@@ -15,7 +15,7 @@ releases:
     chart: actions-runner-controller-charts/gha-runner-scale-set
     version: 0.4.0
     needs:
-      - arc
+      - arc-systems/arc
     values:
       - githubConfigUrl: https://github.com/{{ requiredEnv "GITHUB_REPOSITORY" }}
         githubConfigSecret:
