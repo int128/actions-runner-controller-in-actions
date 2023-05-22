@@ -3,6 +3,10 @@ name: run
 on:
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   actions-runner-controller:
     runs-on: ubuntu-latest
@@ -22,7 +26,8 @@ jobs:
       - if: always()
         run: make logs
 
-  Explore-GitHub-Actions:
+  arc-runner-set:
     runs-on: arc-runner-set
     steps:
-    - run: echo "🎉 This job uses runner scale set runners!"
+      - uses: actions/checkout@v3
+      - run: env
