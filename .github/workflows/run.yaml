@@ -1,0 +1,33 @@
+name: run
+
+on:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  actions-runner-controller:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v3
+      - uses: aquaproj/aqua-installer@v2.1.1
+        with:
+          aqua_version: v2.7.1
+      - run: make cluster
+      - run: make deploy
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_INSTALLATION_ID: ${{ secrets.APP_INSTALLATION_ID }}
+          APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+      - run: make wait-for-job
+      - if: always()
+        run: make logs
+
+  arc-runner-set:
+    runs-on: arc-runner-set
+    steps:
+      - uses: actions/checkout@v3
+      - run: env
