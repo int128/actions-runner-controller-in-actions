@@ -9,3 +9,11 @@ releases:
     namespace: arc-systems
     chart: actions-runner-controller-charts/gha-runner-scale-set-controller
     version: 0.4.0
+
+  - name: arc-runner-set
+    namespace: arc-runners
+    chart: actions-runner-controller-charts/gha-runner-scale-set
+    version: 0.4.0
+    values:
+      - githubConfigUrl: https://github.com/{{ requiredEnv "GITHUB_REPOSITORY" }}
+        githubConfigSecret.github_token: {{ requiredEnv "GITHUB_TOKEN" }}

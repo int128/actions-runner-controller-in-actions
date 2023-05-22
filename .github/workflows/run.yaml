@@ -13,3 +13,8 @@ jobs:
         with:
           aqua_version: v2.7.1
       - run: bash setup.sh
+
+  Explore-GitHub-Actions:
+    runs-on: arc-runner-set
+    steps:
+    - run: echo "🎉 This job uses runner scale set runners!"
