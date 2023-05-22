@@ -17,3 +17,6 @@ releases:
     values:
       - githubConfigUrl: https://github.com/{{ requiredEnv "GITHUB_REPOSITORY" }}
         githubConfigSecret.github_token: {{ requiredEnv "GITHUB_TOKEN" }}
+        controllerServiceAccount:
+          namespace: arc-systems
+          name: arc-gha-runner-scale-set-controller
