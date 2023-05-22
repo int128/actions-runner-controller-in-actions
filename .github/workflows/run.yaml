@@ -12,9 +12,15 @@ jobs:
       - uses: aquaproj/aqua-installer@v2.1.1
         with:
           aqua_version: v2.7.1
-      - run: bash setup.sh
+      - run: make cluster
+      - run: make deploy
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_INSTALLATION_ID: ${{ secrets.APP_INSTALLATION_ID }}
+          APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+      - run: make wait-for-job
+      - if: always()
+        run: make logs
 
   Explore-GitHub-Actions:
     runs-on: arc-runner-set
