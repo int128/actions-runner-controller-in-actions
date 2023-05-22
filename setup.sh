@@ -11,4 +11,4 @@ helm list -A
 kubectl get pods -n arc-systems
 kubectl rollout status deployment -n arc-systems arc-gha-runner-scale-set-controller
 
-sleep 300
+kubectl logs -n arc-systems -f -l app.kubernetes.io/component=controller-manager
