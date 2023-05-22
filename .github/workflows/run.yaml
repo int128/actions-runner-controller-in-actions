@@ -13,6 +13,8 @@ jobs:
         with:
           aqua_version: v2.7.1
       - run: bash setup.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   Explore-GitHub-Actions:
     runs-on: arc-runner-set
