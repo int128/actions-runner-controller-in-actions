@@ -27,6 +27,5 @@ releases:
             containers:
               - name: runner
                 image: ghcr.io/int128/actions-runner-dind:pr-2
-                command: ["/home/runner/run.sh"]
                 securityContext:
                   privileged: true
