@@ -23,6 +23,7 @@ jobs:
           APP_INSTALLATION_ID: ${{ secrets.APP_INSTALLATION_ID }}
           APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
       - run: make wait-for-job
+      - run: sleep 30
       - if: always()
         run: make logs
 
