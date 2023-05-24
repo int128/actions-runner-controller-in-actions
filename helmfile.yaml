@@ -22,3 +22,11 @@ releases:
           github_app_id: {{ requiredEnv "APP_ID" | quote }}
           github_app_installation_id: {{ requiredEnv "APP_INSTALLATION_ID" | quote }}
           github_app_private_key: {{ requiredEnv "APP_PRIVATE_KEY" | quote }}
+        template:
+          spec:
+            containers:
+              - name: runner
+                image: ghcr.io/int128/actions-runner-dind:pr-2
+                command: ["/home/runner/run.sh"]
+                securityContext:
+                  privileged: true
