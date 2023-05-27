@@ -1,14 +1,15 @@
 # actions-runner-controller-in-actions [![run](https://github.com/int128/actions-runner-controller-in-actions/actions/workflows/run.yaml/badge.svg)](https://github.com/int128/actions-runner-controller-in-actions/actions/workflows/run.yaml)
 
-This repository contains a test script to run [actions/actions-runner-controller](https://github.com/actions/actions-runner-controller) and [`RunnerScaleSet`](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners-with-actions-runner-controller/deploying-runner-scale-sets-with-actions-runner-controller) in GitHub Actions.
+This repository contains an E2E test to run [actions/actions-runner-controller](https://github.com/actions/actions-runner-controller) and [`RunnerScaleSet`](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners-with-actions-runner-controller/deploying-runner-scale-sets-with-actions-runner-controller) in GitHub Actions.
 
-It depends on the following stack:
+## How it works
 
+It deploys the following stack in GitHub Actions:
+
+- Kind
+- Helmfile
 - Actions Runner Controller (ARC)
 - Runner scale sets
-- Helmfile
-- Kind
-- GitHub Actions
 
 Here is the diagram.
 
