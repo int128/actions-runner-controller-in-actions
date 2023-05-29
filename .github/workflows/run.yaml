@@ -2,15 +2,28 @@ name: run
 
 on:
   pull_request:
+    paths:
+      - .github/workflows/run.yaml
+      - Makefile
+      - aqua.yaml
+      - helmfile.yaml
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/run.yaml
+      - Makefile
+      - aqua.yaml
+      - helmfile.yaml
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  actions-runner-controller:
+  controller:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v3
       - uses: aquaproj/aqua-installer@v2.1.1
@@ -26,8 +39,9 @@ jobs:
       - if: always()
         run: make logs
 
-  arc-runner-set:
+  runner:
     runs-on: arc-runner-set
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v3
       - run: env
