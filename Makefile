@@ -10,12 +10,12 @@ cluster:
 deploy:
 	helmfile sync
 	helm list -A
-	kubectl rollout status deployment -n arc-systems arc-gha-runner-scale-set-controller
 	kubectl get pods -n arc-systems
 
 .PHONY: wait-for-job
 wait-for-job:
-	while true; do if kubectl get pods -n arc-runners | grep Running; then break; fi; sleep 1; done
+	while ! kubectl wait pods -n arc-runners --all --for=condition=Ready; do sleep 1; done
+	kubectl get pods -n arc-runners
 	-kubectl logs -n arc-runners -l app.kubernetes.io/component=runner --tail=-1 -f
 
 .PHONY: logs

@@ -1,5 +1,6 @@
+# https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners-with-actions-runner-controller
+
 repositories:
-  # https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners-with-actions-runner-controller
   - name: actions-runner-controller-charts
     url: ghcr.io/actions/actions-runner-controller-charts
     oci: true
@@ -22,3 +23,6 @@ releases:
           github_app_id: {{ requiredEnv "APP_ID" | quote }}
           github_app_installation_id: {{ requiredEnv "APP_INSTALLATION_ID" | quote }}
           github_app_private_key: {{ requiredEnv "APP_PRIVATE_KEY" | quote }}
+
+helmDefaults:
+  wait: true
