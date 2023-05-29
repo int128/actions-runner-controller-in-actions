@@ -11,7 +11,7 @@ releases:
     chart: actions-runner-controller-charts/gha-runner-scale-set-controller
     version: 0.4.0
 
-  - name: arc-runner-set
+  - name: {{ requiredEnv "RUNNER_SET" | quote }}
     namespace: arc-runners
     chart: actions-runner-controller-charts/gha-runner-scale-set
     version: 0.4.0

@@ -2,6 +2,11 @@ name: build
 
 on:
   workflow_call:
+    inputs:
+      flavor:
+        description: flavor of Dockerfile, e.g., actions-runner.ubuntu-22.04
+        required: true
+        type: string
     outputs:
       image-uri:
         description: image URI
@@ -34,12 +39,13 @@ jobs:
         id: metadata
         with:
           images: ghcr.io/${{ github.repository }}/runner
+          flavor: suffix=${{ inputs.flavor }}
       - uses: docker/setup-buildx-action@v2
       - uses: docker/build-push-action@v3
         id: build
         with:
           context: runner
-          file: runner/actions-runner-dind.ubuntu-22.04.dockerfile
+          file: runner/${{ inputs.flavor }}.dockerfile
           push: true
           tags: ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}

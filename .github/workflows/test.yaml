@@ -1,0 +1,38 @@
+name: test
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/run.yaml
+      - Makefile
+      - aqua.yaml
+      - helmfile.yaml
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/run.yaml
+      - Makefile
+      - aqua.yaml
+      - helmfile.yaml
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  flavor:
+    strategy:
+      fail-fast: false
+      matrix:
+        flavor:
+          - actions-runner.ubuntu-22.04
+          - actions-runner-dind.ubuntu-22.04
+          - actions-runner-dind-rootless.ubuntu-22.04
+    uses: ./.github/workflows/run.yaml
+    with:
+      flavor: ${{ matrix.flavor }}
+    permissions:
+      contents: read
+      packages: write
+    secrets: inherit
