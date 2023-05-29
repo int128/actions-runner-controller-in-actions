@@ -1,9 +1,14 @@
 name: build
 
 on:
-  pull_request:
-    paths:
-      - .github/workflows/build.yaml
+  workflow_call:
+    outputs:
+      image-uri:
+        description: image URI
+        value: ${{ jobs.runner.outputs.image-uri }}
+  # pull_request:
+  #   paths:
+  #     - .github/workflows/build.yaml
 
 jobs:
   runner:

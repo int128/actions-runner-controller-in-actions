@@ -21,7 +21,14 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  build:
+    uses: ./.github/workflows/build.yaml
+    permissions:
+      contents: read
+      packages: write
+
   controller:
+    needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -32,6 +39,7 @@ jobs:
       - run: make cluster
       - run: make deploy
         env:
+          RUNNER_IMAGE_URI: ${{ needs.build.outputs.image-uri }}
           APP_ID: ${{ secrets.APP_ID }}
           APP_INSTALLATION_ID: ${{ secrets.APP_INSTALLATION_ID }}
           APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
@@ -40,6 +48,7 @@ jobs:
         run: make logs
 
   runner:
+    needs: build
     runs-on: arc-runner-set
     timeout-minutes: 10
     steps:

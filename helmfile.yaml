@@ -23,6 +23,13 @@ releases:
           github_app_id: {{ requiredEnv "APP_ID" | quote }}
           github_app_installation_id: {{ requiredEnv "APP_INSTALLATION_ID" | quote }}
           github_app_private_key: {{ requiredEnv "APP_PRIVATE_KEY" | quote }}
+        template:
+          spec:
+            containers:
+              - name: runner
+                image: {{ requiredEnv "RUNNER_IMAGE_URI" | quote }}
+                securityContext:
+                  privileged: true
 
 helmDefaults:
   wait: true
