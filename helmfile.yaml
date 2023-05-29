@@ -27,6 +27,7 @@ releases:
           spec:
             containers:
               - name: runner
+                command: ["/home/runner/run.sh"]
                 image: {{ requiredEnv "RUNNER_IMAGE_URI" | quote }}
                 securityContext:
                   privileged: true
