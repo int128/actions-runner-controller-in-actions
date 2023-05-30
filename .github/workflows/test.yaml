@@ -29,6 +29,9 @@ jobs:
           - actions-runner.ubuntu-22.04
           - actions-runner-dind.ubuntu-22.04
           - actions-runner-dind-rootless.ubuntu-22.04
+          - actions-runner.ubuntu-20.04
+          - actions-runner-dind.ubuntu-20.04
+          - actions-runner-dind-rootless.ubuntu-20.04
     uses: ./.github/workflows/run.yaml
     with:
       flavor: ${{ matrix.flavor }}

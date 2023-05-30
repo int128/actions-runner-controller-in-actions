@@ -63,3 +63,5 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: env
+      - run: docker version
+        continue-on-error: true
