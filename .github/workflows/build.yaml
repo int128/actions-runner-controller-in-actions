@@ -29,7 +29,7 @@ jobs:
         with:
           # https://github.com/actions/actions-runner-controller/pull/2616
           repository: actions/actions-runner-controller
-          ref: enhancec-arc-runner-images-for-scaleset-compat
+          ref: 74617c1861ea191f5301f99d5a921da1925205a5
       - uses: docker/login-action@v2
         with:
           registry: ghcr.io
