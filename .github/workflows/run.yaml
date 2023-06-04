@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
-      runner-set: ${{ steps.generate.outputs.runner-set }}
+      runner-name: ${{ steps.generate.outputs.runner-name }}
     steps:
       - uses: actions/github-script@v6
         id: generate
@@ -29,7 +29,7 @@ jobs:
           flavor: ${{ inputs.flavor }}
         with:
           script: |
-            core.setOutput('runner-set', process.env.flavor.replaceAll('.', '-'))
+            core.setOutput('runner-name', process.env.flavor.replaceAll('.', '-'))
 
   controller:
     needs:
@@ -41,24 +41,26 @@ jobs:
       - uses: actions/checkout@v3
       - uses: aquaproj/aqua-installer@v2.1.1
         with:
-          aqua_version: v2.7.1
+          aqua_version: v2.8.0
       - run: make cluster
       - run: make deploy
         env:
-          RUNNER_SET: ${{ needs.params.outputs.runner-set }}
+          RUNNER_NAME: ${{ needs.params.outputs.runner-name }}
           RUNNER_IMAGE_URI: ${{ needs.build.outputs.image-uri }}
           APP_ID: ${{ secrets.APP_ID }}
           APP_INSTALLATION_ID: ${{ secrets.APP_INSTALLATION_ID }}
           APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
       - run: make wait-for-job
-      - if: always()
-        run: make logs
+      - run: make undeploy
+        if: always()
+      - run: make logs
+        if: always()
 
   runner:
     needs:
       - build
       - params
-    runs-on: ${{ needs.params.outputs.runner-set }}
+    runs-on: ${{ needs.params.outputs.runner-name }}
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v3
