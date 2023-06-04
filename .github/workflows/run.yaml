@@ -42,7 +42,7 @@ jobs:
         if: always()
 
   runner:
-    runs-on: arc-runner-set
+    runs-on: runner-scale-set-${{ github.run_id }}
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v3
