@@ -45,8 +45,8 @@ jobs:
       - run: make cluster
       - run: make deploy
         env:
-          RUNNER_NAME: ${{ needs.params.outputs.runner-name }}
-          RUNNER_IMAGE_URI: ${{ needs.build.outputs.image-uri }}
+          MY_RUNNER_NAME: ${{ needs.params.outputs.runner-name }}
+          MY_RUNNER_IMAGE_URI: ${{ needs.build.outputs.image-uri }}
           APP_ID: ${{ secrets.APP_ID }}
           APP_INSTALLATION_ID: ${{ secrets.APP_INSTALLATION_ID }}
           APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
