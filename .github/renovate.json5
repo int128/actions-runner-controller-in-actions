@@ -4,4 +4,14 @@
     "github>int128/renovate-base",
     "github>aquaproj/aqua-renovate-config#1.6.0",
   ],
+  "packageRules": [
+    {
+      "description": "Group actions-runner-controller charts",
+      "matchPackageNames": [
+        "gha-runner-scale-set-controller",
+        "gha-runner-scale-set",
+      ],
+      "groupName": "actions-runner-controller-charts",
+    },
+  ],
 }
