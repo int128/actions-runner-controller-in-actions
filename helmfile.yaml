@@ -12,7 +12,7 @@ releases:
     version: 0.9.3
 
   - needs: [arc-systems/arc]
-    name: runner-scale-set-{{ requiredEnv "GITHUB_RUN_ID" }}
+    name: {{ requiredEnv "MY_RUNNER_NAME" | quote }}
     namespace: arc-runners
     chart: actions-runner-controller-charts/gha-runner-scale-set
     version: 0.9.3
@@ -22,6 +22,14 @@ releases:
           github_app_id: {{ requiredEnv "APP_ID" | quote }}
           github_app_installation_id: {{ requiredEnv "APP_INSTALLATION_ID" | quote }}
           github_app_private_key: {{ requiredEnv "APP_PRIVATE_KEY" | quote }}
+        template:
+          spec:
+            containers:
+              - name: runner
+                command: ["/home/runner/run.sh"]
+                image: {{ requiredEnv "MY_RUNNER_IMAGE_URI" | quote }}
+                securityContext:
+                  privileged: true
 
 helmDefaults:
   wait: true

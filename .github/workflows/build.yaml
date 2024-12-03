@@ -1,0 +1,56 @@
+name: build
+
+on:
+  workflow_call:
+    inputs:
+      flavor:
+        description: flavor of Dockerfile, e.g., actions-runner.ubuntu-22.04
+        required: true
+        type: string
+    outputs:
+      image-uri:
+        description: image URI
+        value: ${{ jobs.runner.outputs.image-uri }}
+  # pull_request:
+  #   paths:
+  #     - .github/workflows/build.yaml
+
+jobs:
+  runner:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image-uri: ghcr.io/${{ github.repository }}/runner@${{ steps.build.outputs.digest }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # https://github.com/actions/actions-runner-controller/pull/2616
+          repository: actions/actions-runner-controller
+          ref: 74617c1861ea191f5301f99d5a921da1925205a5
+      - uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/metadata-action@v4
+        id: metadata
+        with:
+          images: ghcr.io/${{ github.repository }}/runner
+          flavor: suffix=${{ inputs.flavor }}
+      - uses: docker/setup-buildx-action@v2
+      - uses: docker/build-push-action@v3
+        id: build
+        with:
+          context: runner
+          file: runner/${{ inputs.flavor }}.dockerfile
+          push: true
+          tags: ${{ steps.metadata.outputs.tags }}
+          labels: ${{ steps.metadata.outputs.labels }}
+          build-args: |
+            RUNNER_ASSETS_DIR=/home/runner
+            EXTERNALS_DIR_NAME=externals
+            TARGETPLATFORM=linux/amd64
+            RUNNER_VERSION=2.304.0
