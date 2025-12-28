@@ -2,16 +2,16 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>int128/renovate-base",
-    "github>aquaproj/aqua-renovate-config#2.3.1",
+    "github>aquaproj/aqua-renovate-config#2.3.1"
   ],
   "packageRules": [
     {
       "description": "Group actions-runner-controller charts",
       "matchPackageNames": [
         "gha-runner-scale-set-controller",
-        "gha-runner-scale-set",
+        "gha-runner-scale-set"
       ],
-      "groupName": "actions-runner-controller-charts",
-    },
-  ],
+      "groupName": "actions-runner-controller-charts"
+    }
+  ]
 }
